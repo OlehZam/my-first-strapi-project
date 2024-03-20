@@ -1,4 +1,4 @@
-import type { Schema, Attribute } from '@strapi/strapi';
+ import type { Schema, Attribute } from '@strapi/strapi';
 
 export interface AdminPermission extends Schema.CollectionType {
   collectionName: 'admin_permissions';
@@ -879,6 +879,37 @@ export interface ApiHotelHotel extends Schema.CollectionType {
   };
 }
 
+export interface ApiRestaurantRestaurant extends Schema.CollectionType {
+  collectionName: 'restaurants';
+  info: {
+    singularName: 'restaurant';
+    pluralName: 'restaurants';
+    displayName: 'Restaurant';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String & Attribute.Required & Attribute.Unique;
+    Description: Attribute.Blocks;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::restaurant.restaurant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::restaurant.restaurant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -900,6 +931,7 @@ declare module '@strapi/types' {
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
       'api::hotel.hotel': ApiHotelHotel;
+      'api::restaurant.restaurant': ApiRestaurantRestaurant;
     }
   }
 }
