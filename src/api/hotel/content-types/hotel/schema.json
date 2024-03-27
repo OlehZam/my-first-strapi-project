@@ -19,6 +19,24 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::country.country"
+    },
+    "airports": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::airport.airport",
+      "inversedBy": "hotels"
+    },
+    "region": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::region.region"
+    },
+    "Image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

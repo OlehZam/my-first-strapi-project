@@ -818,6 +818,52 @@ export interface ApiAboutUsAboutUs extends Schema.SingleType {
   };
 }
 
+export interface ApiAirportAirport extends Schema.CollectionType {
+  collectionName: 'airports';
+  info: {
+    singularName: 'airport';
+    pluralName: 'airports';
+    displayName: 'Airport';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String;
+    regions: Attribute.Relation<
+      'api::airport.airport',
+      'manyToMany',
+      'api::region.region'
+    >;
+    country: Attribute.Relation<
+      'api::airport.airport',
+      'oneToOne',
+      'api::country.country'
+    >;
+    hotels: Attribute.Relation<
+      'api::airport.airport',
+      'manyToMany',
+      'api::hotel.hotel'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::airport.airport',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::airport.airport',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiContactUsContactUs extends Schema.SingleType {
   collectionName: 'contact_uses';
   info: {
@@ -854,12 +900,14 @@ export interface ApiCountryCountry extends Schema.CollectionType {
     singularName: 'country';
     pluralName: 'countries';
     displayName: 'Country';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     Name: Attribute.String;
+    Image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -926,6 +974,17 @@ export interface ApiHotelHotel extends Schema.CollectionType {
       'oneToOne',
       'api::country.country'
     >;
+    airports: Attribute.Relation<
+      'api::hotel.hotel',
+      'manyToMany',
+      'api::airport.airport'
+    >;
+    region: Attribute.Relation<
+      'api::hotel.hotel',
+      'oneToOne',
+      'api::region.region'
+    >;
+    Image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -937,6 +996,43 @@ export interface ApiHotelHotel extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::hotel.hotel',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRegionRegion extends Schema.CollectionType {
+  collectionName: 'regions';
+  info: {
+    singularName: 'region';
+    pluralName: 'regions';
+    displayName: 'Region';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String;
+    airports: Attribute.Relation<
+      'api::region.region',
+      'manyToMany',
+      'api::airport.airport'
+    >;
+    Image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::region.region',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::region.region',
       'oneToOne',
       'admin::user'
     > &
@@ -963,10 +1059,12 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::about-us.about-us': ApiAboutUsAboutUs;
+      'api::airport.airport': ApiAirportAirport;
       'api::contact-us.contact-us': ApiContactUsContactUs;
       'api::country.country': ApiCountryCountry;
       'api::frontpage.frontpage': ApiFrontpageFrontpage;
       'api::hotel.hotel': ApiHotelHotel;
+      'api::region.region': ApiRegionRegion;
     }
   }
 }

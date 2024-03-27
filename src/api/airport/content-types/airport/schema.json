@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "airports",
+  "info": {
+    "singularName": "airport",
+    "pluralName": "airports",
+    "displayName": "Airport",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "regions": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::region.region",
+      "inversedBy": "airports"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::country.country"
+    },
+    "hotels": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::hotel.hotel",
+      "mappedBy": "airports"
+    }
+  }
+}
