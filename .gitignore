@@ -112,3 +112,6 @@ exports
 dist
 build
 .strapi-updater.json
+/.vs/CMS/FileContentIndex
+/.vs/UltimateOTA/FileContentIndex
+/.vs
